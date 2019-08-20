@@ -1039,6 +1039,19 @@ FMAP_CBFS_SIZE := $(call int-subtract,$(FMAP_BIOS_SIZE) $(FMAP_CBFS_BASE))
 
 endif # ifeq ($(CONFIG_ARCH_X86),y)
 
+#
+# NON_X86 FFS_HDR REGION
+#
+#
+ifeq ($(CONFIG_OPENPOWER_FFS_HEADER),y)
+FMAP_CBFS_SIZE := $(call int-subtract,$(FMAP_CBFS_SIZE) $(CONFIG_OPENPOWER_FFS_HEADER_OFFSET))
+FMAP_FFS_HDR_BASE := $(call int-add, $(FMAP_CBFS_BASE) $(FMAP_CBFS_SIZE))
+FMAP_FFS_HDR_ENTRY := FFS_HDR@$(FMAP_FFS_HDR_BASE) $(CONFIG_OPENPOWER_FFS_HEADER_OFFSET)
+else # ifeq ($(CONFIG_FFS_HEADER),y)
+FMAP_FFS_HDR_BASE := 0
+FMAP_FFS_HDR_ENTRY :=
+endif # ifeq ($(CONFIG_OPENPOWER_FFS_HEADER),y)
+
 $(obj)/fmap.fmd: $(top)/Makefile.inc $(DEFAULT_FLASHMAP) $(obj)/config.h
 	sed -e "s,##ROM_BASE##,$(FMAP_ROM_ADDR)," \
 	    -e "s,##ROM_SIZE##,$(FMAP_ROM_SIZE)," \
@@ -1051,6 +1064,7 @@ $(obj)/fmap.fmd: $(top)/Makefile.inc $(DEFAULT_FLASHMAP) $(obj)/config.h
 	    -e "s,##SMMSTORE_ENTRY##,$(FMAP_SMMSTORE_ENTRY)," \
 	    -e "s,##CBFS_BASE##,$(FMAP_CBFS_BASE)," \
 	    -e "s,##CBFS_SIZE##,$(FMAP_CBFS_SIZE)," \
+	    -e "s,##FFS_HDR_ENTRY##,$(FMAP_FFS_HDR_ENTRY)," \
 		$(DEFAULT_FLASHMAP) > $@.tmp
 	mv $@.tmp $@
 else # ifeq ($(CONFIG_FMDFILE),)
