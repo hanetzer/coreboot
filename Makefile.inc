@@ -539,6 +539,10 @@ RMODTOOL:=$(objutil)/cbfstool/rmodtool
 IFWITOOL:=$(objutil)/cbfstool/ifwitool
 IFITTOOL:=$(objutil)/cbfstool/ifittool
 AMDCOMPRESS:=$(objutil)/cbfstool/amdcompress
+ifeq ($(CONFIG_OPENPOWER_FFS_HEADER),y)
+FPART:=$(objutil)/ffs/fpart/fpart
+ECC:=$(objutil)/ffs/ecc/ecc
+endif
 
 $(obj)/cbfstool: $(CBFSTOOL)
 	cp $< $@
@@ -557,6 +561,23 @@ $(obj)/ifittool: $(IFITTOOL)
 
 $(obj)/amdcompress: $(AMDCOMPRESS)
 	cp $< $@
+
+ifeq ($(CONFIG_OPENPOWER_FFS_HEADER),y)
+$(FPART):
+	mkdir -p $(objutil)/ffs
+	cd $(top)/3rdparty/ffs && autoreconf -i
+	cd $(objutil)/ffs && $(top)/3rdparty/ffs/configure CC="$(HOSTCC)" LD="$(LD)"
+	$(MAKE) -C $(objutil)/ffs
+
+$(ECC): $(FPART)
+	true
+
+$(obj)/fpart: $(FPART)
+	cp $< $@
+
+$(obj)/ecc: $(ECC)
+	cp $< $@
+endif
 
 _WINCHECK=$(shell uname -o 2> /dev/null)
 STACK=
@@ -1104,7 +1125,7 @@ else
 RAMSTAGE=
 endif
 
-$(obj)/coreboot.rom: $(obj)/coreboot.pre $(RAMSTAGE) $(CBFSTOOL) $$(INTERMEDIATE)
+$(obj)/coreboot.rom: $(obj)/coreboot.pre $(RAMSTAGE) $(CBFSTOOL) $$(INTERMEDIATE) $(FPART)
 	@printf "    CBFS       $(subst $(obj)/,,$(@))\n"
 # The full ROM may be larger than the CBFS part, so create an empty
 # file (filled with \377 = 0xff) and copy the CBFS image over it.
