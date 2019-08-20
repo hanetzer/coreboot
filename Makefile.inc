@@ -1197,6 +1197,11 @@ endif
 
 endif
 
+ifeq ($(CONFIG_OPENPOWER_FFS_HEADER),y)
+	$(FPART) -C -t $@.tmp -s $(CONFIG_ROM_SIZE) -b 4k -p $(FMAP_FFS_HDR_BASE)
+	$(FPART) -A -t $@.tmp --size 128kb --offset 0 --flags 0 --name HBB -p $(FMAP_FFS_HDR_BASE)
+endif # ($(CONFIG_OPENPOWER_FFS_HEADER),y)
+
 endif # !CONFIG_UPDATE_IMAGE
 endif # CONFIG_CPU_INTEL_FIRMWARE_INTERFACE_TABLE
 	mv $@.tmp $@
