@@ -234,3 +234,30 @@ config MAINBOARD_POWER_FAILURE_STATE
 	default 0
 
 endif # HAVE_POWER_STATE_AFTER_FAILURE
+
+if ARCH_PPC64
+
+config OPENPOWER_COMPAT
+	bool "OpenPOWER compat options"
+	default n
+	help
+	  OpenPOWER compat options for initial install and dev.
+
+config OPENPOWER_FFS_HEADER
+	bool "Add ffs partition header"
+	depends on OPENPOWER_COMPAT
+	default n
+	help
+	  Generate an open-power compatible ffs header. Required for booting
+	  coreboot on open-power systems with their original seeprom firmware
+	  and the initial 'conversion' flash.
+
+config OPENPOWER_FFS_HEADER_OFFSET
+	hex "OpenPOWER ffs header offset"
+	depends on OPENPOWER_FFS_HEADER
+	default 0x9000
+	help
+	  Offset of the open-power ffs header from the end of the rom. Taken
+	  from hostboot's src/include/usr/pnor/pnor_const.H as of this writing.
+
+endif # ARCH_PPC64
