@@ -699,7 +699,7 @@ build_BINUTILS() {
 	../binutils-${BINUTILS_VERSION}/configure --prefix="$TARGETDIR" \
 		--target=${TARGETARCH} --enable-targets=${TARGETARCH}${ADDITIONALTARGET} \
 		--disable-werror --disable-nls --enable-lto --enable-gold \
-		--enable-interwork --enable-multilib \
+		--enable-interwork --enable-multilib ${ABICONF} \
 		--enable-plugins --enable-multilibs \
 		CFLAGS="$HOSTCFLAGS" \
 		CXXFLAGS="$HOSTCFLAGS" \
@@ -724,7 +724,7 @@ bootstrap_GCC() {
 		--disable-werror --disable-nls \
 		--disable-shared --disable-multilib \
 		--disable-libssp --disable-libquadmath --disable-libcc1 \
-		--disable-libsanitizer \
+		--disable-libsanitizer ${ABICONF} \
 		${GCC_OPTIONS} --enable-languages="${LANGUAGES}" \
 		--with-gmp="$DESTDIR$TARGETDIR" --with-mpfr="$DESTDIR$TARGETDIR" \
 		--with-mpc="$DESTDIR$TARGETDIR" \
@@ -766,7 +766,7 @@ build_cross_GCC() {
 		--enable-lto --enable-plugins --enable-gold --enable-ld=default \
 		--disable-libssp --disable-bootstrap --disable-nls \
 		--disable-libquadmath --without-headers \
-		--disable-threads \
+		--disable-threads ${ABICONF} \
 		--enable-interwork --enable-multilib --enable-targets=all \
 		--disable-libatomic --disable-libcc1 --disable-decimal-float \
 		${GCC_OPTIONS} --enable-languages="${LANGUAGES}" \
@@ -987,7 +987,7 @@ case "$TARGETARCH" in
 	i386-elf)		;;
 	i386-mingw32)		;;
 	riscv-elf)		TARGETARCH=riscv64-elf;;
-	powerpc64*-linux*)	;;
+	powerpc64*-linux*)	ABICONF="--with-abi=elfv2";;
 	i386*)			TARGETARCH=i386-elf;;
 	arm*)			TARGETARCH=arm-eabi;;
 	aarch64*)		TARGETARCH=aarch64-elf;;

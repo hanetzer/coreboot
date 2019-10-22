@@ -25,9 +25,9 @@ crossgcc: clean-for-update
 	$(MAKE) -C util/crossgcc all_without_gdb SKIP_CLANG=1
 
 .PHONY: crossgcc crossgcc-i386 crossgcc-x64 crossgcc-arm crossgcc-aarch64 \
-	crossgcc-riscv crossgcc-power8 crossgcc-clean iasl \
+	crossgcc-riscv crossgcc-ppc64 crossgcc-clean iasl \
 	clang crosstools-i386 crosstools-x64 crosstools-arm \
-	crosstools-aarch64 crosstools-riscv crosstools-power8 \
+	crosstools-aarch64 crosstools-riscv crosstools-ppc64 \
 	jenkins-build-toolchain nasm
 
 $(foreach arch,$(TOOLCHAIN_ARCHES),crossgcc-$(arch)): clean-for-update
