@@ -1,6 +1,10 @@
 ## SPDX-License-Identifier: GPL-2.0-only
 
-ppc64_flags = -I$(src)/arch/ppc64/ -mbig-endian -mcpu=power8 -mtune=power8
+ppc64_flags = -I$(src)/arch/ppc64/ -mbig-endian
+
+ifneq ($(CONFIG_PPC64_ARCH),"")
+ppc64_flags += -mcpu=$(CONFIG_PPC64_ARCH) -mtune=$(CONFIG_PPC64_ARCH)
+endif
 
 ppc64_asm_flags =
 

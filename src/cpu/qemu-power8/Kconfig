@@ -7,3 +7,11 @@ config CPU_QEMU_POWER8
 	select ARCH_ROMSTAGE_PPC64
 	select ARCH_RAMSTAGE_PPC64
 	select NO_MONOTONIC_TIMER
+
+if CPU_QEMU_POWER8
+
+config PPC64_ARCH
+	string
+	default "power8"
+
+endif # CPU_QEMU_POWER8
