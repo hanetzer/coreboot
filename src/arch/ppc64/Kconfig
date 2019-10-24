@@ -1,6 +1,12 @@
 config ARCH_PPC64
 	bool
 
+if ARCH_PPC64
+config PPC64_ARCH
+	string
+
+endif # ARCH_PPC64
+
 config ARCH_BOOTBLOCK_PPC64
 	bool
 	select ARCH_PPC64
