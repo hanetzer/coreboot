@@ -237,6 +237,12 @@ endif # HAVE_POWER_STATE_AFTER_FAILURE
 
 if ARCH_PPC64
 
+config PPC64_LE
+	bool "Build a Little-Endian coreboot"
+	default n
+	help
+	  Build bootblock, romstage and ramstage as Little-Endian.
+
 config OPENPOWER_COMPAT
 	bool "OpenPOWER compat options"
 	default n
