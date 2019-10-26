@@ -23,3 +23,8 @@ config ARCH_ROMSTAGE_PPC64
 config ARCH_RAMSTAGE_PPC64
 	bool
 	select ARCH_PPC64
+
+config PPC64_USE_ARCH_TIMER
+	bool
+	default n
+
