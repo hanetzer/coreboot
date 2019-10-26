@@ -1,0 +1,16 @@
+config SOC_IBM_POWER9
+	bool
+	default n
+	select PPC64_USE_ARCH_TIMER
+	select ARCH_BOOTBLOCK_PPC64
+	select ARCH_VERSTAGE_PPC64
+	select ARCH_ROMSTAGE_PPC64
+	select ARCH_RAMSTAGE_PPC64
+
+if SOC_IBM_POWER9
+
+config PPC64_ARCH
+	string
+	default "power9"
+
+endif

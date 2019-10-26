@@ -1,0 +1,4 @@
+config SOC_IBM_NIMBUS
+	bool
+	default n
+	select SOC_IBM_POWER9
