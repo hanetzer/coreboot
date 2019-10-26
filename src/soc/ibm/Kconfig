@@ -1,0 +1,2 @@
+# Load all chips
+source "src/soc/ibm/*/Kconfig"
