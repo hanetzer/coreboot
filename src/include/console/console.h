@@ -87,4 +87,6 @@ static inline long console_time_get_and_reset(void) { return 0; }
 static inline void console_time_report(void) {}
 #endif
 
+void ice(void);
+
 #endif /* CONSOLE_CONSOLE_H_ */
