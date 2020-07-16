@@ -1368,6 +1368,16 @@ config DEBUG_ACPICA_COMPATIBLE
 	  to extract all the tables. Then use 'iasl -d' on the .dat files
 	  to decompile the tables.
 
+config SERIALICE
+	bool "SerialICE"
+	default n
+	depends on CONSOLE_SERIAL
+	help
+	  Enable SerialICE on the serial console.
+	  SerialICE pauses with a prompt, and one can attach
+	  to that prompt with any number of tools, including
+	  a modified QEMU. For more, see serialice.org
+
 endmenu
 
 ###############################################################################
