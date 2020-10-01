@@ -1,0 +1,16 @@
+if VENDOR_RAPTORCS
+
+choice
+	prompt "Mainboard model"
+
+source "src/mainboard/rcs/*/Kconfig.name"
+
+endchoice
+
+source "src/mainboard/rcs/*/Kconfig"
+
+config MAINBOARD_VENDOR
+	string "Mainboard Vendor"
+	default "Raptor Computing Systems"
+
+endif # VENDOR_RAPTORCS

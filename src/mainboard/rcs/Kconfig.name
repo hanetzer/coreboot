@@ -1,0 +1,2 @@
+config VENDOR_RAPTORCS
+	bool "Raptor Computing Systems"
