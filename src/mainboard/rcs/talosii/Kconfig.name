@@ -1,0 +1,5 @@
+comment "Talos II"
+
+config BOARD_RAPTORCS_TALOSII
+	bool "-> Talos II"
+	select BOARD_RAPTORCS_TALOSII_COMMON
