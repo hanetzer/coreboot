@@ -1,6 +1,6 @@
 ## SPDX-License-Identifier: GPL-2.0-only
 
-ppc64_flags = -I$(src)/arch/ppc64/ -Wa,-mregnames
+ppc64_flags = -I$(src)/arch/ppc64/ -Wa,-mregnames -mno-vsx -mno-altivec
 
 ifeq ($(CONFIG_PPC64_LE),y)
 ppc64_flags += -mlittle-endian
