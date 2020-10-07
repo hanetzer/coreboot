@@ -19,7 +19,12 @@
 #define SAVE_GPR(reg,sp)	std r##reg,STACK_GPR##reg(sp)
 #define REST_GPR(reg,sp)	ld r##reg,STACK_GPR##reg(sp)
 
-ENTRY(_start)
+.section ".text._start", "ax"
+
+.globl _toc_start
+.global _etoc
+.globl _start
+_start:
 	FIXUP_ENDIAN
 	/* Set thread priority high. */
 	or	2,2,2
@@ -54,7 +59,6 @@ _start_postmsr:
 	bne	1b
 	isync
 	b	call_bootblock
-END(_start)
 
 /* ENTRY(relative_toc) */
 /* 	mflr	r0 */
@@ -275,7 +279,7 @@ exception_entry_foo:
 	 rfid
 	 b .
 
-ENTRY(_other_thread_spinlock)
+_other_thread_spinlock:
 	/* Read spinlock value */
 	lis	r2, kernel_other_thread_spinlock@ha
 	ori	r2, r2, kernel_other_thread_spinlock@l
@@ -291,9 +295,9 @@ _other_thread_spinlock_complete:
 	/* Raise thread priority */
 	or	2,2,2
 	isync
-ENDPROC(_other_thread_spinlock)
 
 call_bootblock:
+	LOAD_IMM32(r2, _toc_start - _start)
 	li	r3, 0
 	lis	r1, _estack@h
 	ori	r1, r1, _estack@l
@@ -311,7 +315,6 @@ call_bootblock:
 	bl	main
 	nop
 	b	.
-
 
 	/* .section ".id", "a", %progbits */
 
