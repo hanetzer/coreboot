@@ -54,6 +54,7 @@ endif
 ################################################################################
 ifeq ($(CONFIG_ARCH_ROMSTAGE_PPC64),y)
 
+romstage-y += romstage.c
 romstage-y += boot.c
 romstage-y += stages.c
 romstage-y += rom_media.c

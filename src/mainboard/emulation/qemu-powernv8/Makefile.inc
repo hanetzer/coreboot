@@ -1,11 +1,11 @@
 ## SPDX-License-Identifier: GPL-2.0-only
 
 bootblock-y += bootblock.c
-bootblock-y += uart.c
 bootblock-y += timer.c
+bootblock-y += uart.c
 
 romstage-y += cbmem.c
-romstage-y += romstage.c
+romstage-y += timer.c
 romstage-y += uart.c
 
 ramstage-y += timer.c
