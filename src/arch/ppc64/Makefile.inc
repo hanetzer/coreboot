@@ -1,6 +1,6 @@
 ## SPDX-License-Identifier: GPL-2.0-only
 
-ppc64_flags = -I$(src)/arch/ppc64/
+ppc64_flags = -I$(src)/arch/ppc64/ -Wa,-mregnames
 
 ifeq ($(CONFIG_PPC64_LE),y)
 ppc64_flags += -mlittle-endian
@@ -14,7 +14,7 @@ ifneq ($(CONFIG_PPC64_ARCH),"")
 ppc64_flags += -mcpu=$(CONFIG_PPC64_ARCH) -mtune=$(CONFIG_PPC64_ARCH)
 endif
 
-ppc64_asm_flags =
+ppc64_asm_flags = -Wa,-mregnames
 
 COMPILER_RT_bootblock = $(shell $(GCC_bootblock) $(ppc64_flags) -print-libgcc-file-name)
 
