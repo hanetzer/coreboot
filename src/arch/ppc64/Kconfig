@@ -22,4 +22,8 @@ config ARCH_RAMSTAGE_PPC64
 	bool
 	default n
 
+config PPC64_USE_ARCH_TIMER
+	bool
+	default n
+
 endif # if ARCH_PPC64
