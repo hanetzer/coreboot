@@ -1,12 +1,26 @@
 ## SPDX-License-Identifier: GPL-2.0-only
 
-ppc64_flags = -I$(src)/arch/ppc64/ -mbig-endian
+ppc64_flags = -I$(src)/arch/ppc64/
+
+ifeq ($(CONFIG_PPC64_LE),y)
+ppc64_flags += -mlittle-endian
+_ppc64_endian += -EL
+else
+ppc64_flags += -mbig-endian
+_ppc64_endian += -EB
+endif
 
 ifneq ($(CONFIG_PPC64_ARCH),"")
 ppc64_flags += -mcpu=$(CONFIG_PPC64_ARCH) -mtune=$(CONFIG_PPC64_ARCH)
 endif
 
 ppc64_asm_flags =
+
+COMPILER_RT_bootblock = $(shell $(GCC_bootblock) $(ppc64_flags) -print-libgcc-file-name)
+
+COMPILER_RT_romstage = $(shell $(GCC_romstage) $(ppc64_flags) -print-libgcc-file-name)
+
+COMPILER_RT_ramstage = $(shell $(GCC_ramstage) $(ppc64_flags) -print-libgcc-file-name)
 
 ################################################################################
 ## bootblock
@@ -27,8 +41,9 @@ bootblock-generic-ccopts += $(ppc64_flags)
 
 $(objcbfs)/bootblock.debug: $$(bootblock-objs)
 	@printf "    LINK       $(subst $(obj)/,,$(@))\n"
-	$(LD_bootblock) $(LDFLAGS_bootblock) -o $@ -L$(obj) \
-		-T $(call src-to-obj,bootblock,$(CONFIG_MEMLAYOUT_LD_FILE)) --whole-archive --start-group $(filter-out %.ld,$(bootblock-objs)) \
+	$(LD_bootblock) $(LDFLAGS_bootblock) $(_ppc64_endian) -o $@ -L$(obj) \
+		-T $(call src-to-obj,bootblock,$(CONFIG_MEMLAYOUT_LD_FILE)) --whole-archive \
+		--start-group $(filter-out %.ld,$(bootblock-objs)) \
 		$(LIBGCC_FILE_NAME_bootblock) --end-group $(COMPILER_RT_bootblock)
 
 endif
@@ -54,7 +69,9 @@ romstage-$(CONFIG_COLLECT_TIMESTAMPS) += timestamp.c
 
 $(objcbfs)/romstage.debug: $$(romstage-objs)
 	@printf "    LINK       $(subst $(obj)/,,$(@))\n"
-	$(LD_romstage) $(LDFLAGS_romstage) -o $@ -L$(obj) -T $(call src-to-obj,romstage,$(CONFIG_MEMLAYOUT_LD_FILE)) --whole-archive --start-group $(filter-out %.ld,$(romstage-objs)) --end-group $(COMPILER_RT_romstage)
+	$(LD_romstage) $(LDFLAGS_romstage) $(_ppc64_endian) -o $@ -L$(obj) \
+		-T $(call src-to-obj,romstage,$(CONFIG_MEMLAYOUT_LD_FILE)) --whole-archive \
+		--start-group $(filter-out %.ld,$(romstage-objs)) --end-group $(COMPILER_RT_romstage)
 
 romstage-c-ccopts += $(ppc64_flags)
 romstage-S-ccopts += $(ppc64_asm_flags)
@@ -87,7 +104,9 @@ ramstage-srcs += src/mainboard/$(MAINBOARDDIR)/mainboard.c
 
 $(objcbfs)/ramstage.debug: $$(ramstage-objs)
 	@printf "    CC         $(subst $(obj)/,,$(@))\n"
-	$(LD_ramstage) $(LDFLAGS_ramstage) -o $@ -L$(obj) -T $(call src-to-obj,ramstage,$(CONFIG_MEMLAYOUT_LD_FILE)) --whole-archive --start-group $(filter-out %.ld,$(ramstage-objs)) --end-group $(COMPILER_RT_ramstage)
+	$(LD_ramstage) $(LDFLAGS_ramstage) $(_ppc64_endian) -o $@ -L$(obj) \
+		-T $(call src-to-obj,ramstage,$(CONFIG_MEMLAYOUT_LD_FILE)) --whole-archive \
+		--start-group $(filter-out %.ld,$(ramstage-objs)) --end-group $(COMPILER_RT_ramstage)
 
 ramstage-c-ccopts += $(ppc64_flags)
 ramstage-S-ccopts += $(ppc64_asm_flags)
