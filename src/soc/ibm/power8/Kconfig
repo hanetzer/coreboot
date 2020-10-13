@@ -1,7 +1,8 @@
 ## SPDX-License-Identifier: GPL-2.0-only
 
-config CPU_QEMU_POWER8
+config SOC_IBM_POWER8
 	bool
+	default n
 	select ARCH_PPC64
 	select ARCH_BOOTBLOCK_PPC64
 	select ARCH_VERSTAGE_PPC64
@@ -9,10 +10,14 @@ config CPU_QEMU_POWER8
 	select ARCH_RAMSTAGE_PPC64
 	select NO_MONOTONIC_TIMER
 
-if CPU_QEMU_POWER8
+if SOC_IBM_POWER8
+
+config MEMLAYOUT_LD_FILE
+	string
+	default "src/soc/ibm/power8/memlayout.ld"
 
 config PPC64_ARCH
 	string
 	default "power8"
 
-endif # CPU_QEMU_POWER8
+endif # SOC_IBM_POWER8
