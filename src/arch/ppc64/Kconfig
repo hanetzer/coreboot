@@ -1,19 +1,25 @@
 config ARCH_PPC64
 	bool
 
+if ARCH_PPC64
+
+config PPC64_ARCH
+	string
+
 config ARCH_BOOTBLOCK_PPC64
 	bool
-	select ARCH_PPC64
-	select BOOTBLOCK_CUSTOM
+	default n
 
 config ARCH_VERSTAGE_PPC64
 	bool
-	select ARCH_PPC64
+	default n
 
 config ARCH_ROMSTAGE_PPC64
 	bool
-	select ARCH_PPC64
+	default n
 
 config ARCH_RAMSTAGE_PPC64
 	bool
-	select ARCH_PPC64
+	default n
+
+endif # if ARCH_PPC64
