@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+if BOARD_ASROCK_X370KILLERSLI
+
+config BOARD_SPECIFIC_OPTIONS
+	def_bool y
+	select SOC_AMD_PICASSO
+	select BOARD_ROMSIZE_KB_16384
+	select DRIVERS_I2C_GENERIC
+	select GFXUMA
+	select PCIEXP_ASPM
+	select PCIEXP_CLK_PM
+	select PCIEXP_COMMON_CLOCK
+	select PCIEXP_L1_SUB_STATE
+	select HAVE_ACPI_RESUME
+	select DRIVERS_USB_ACPI
+	select SUPERIO_NUVOTON_COMMON_COM_A
+	select SUPERIO_NUVOTON_NCT6779D
+	select AMD_FWM_POSITION_E20000_DEFAULT
+	select CACHE_MRC_SETTINGS # Temporary workaround
+
+config MAINBOARD_DIR
+	default "asrock/x370killersli"
+
+config MAINBOARD_PART_NUMBER
+	default "X370 Killer Sli"
+
+config ONBOARD_VGA_IS_PRIMARY
+	bool
+	default y
+
+config VGA_BIOS
+	default y if USE_AMD_BLOBS
+
+endif # BOARD_ASROCK_X370KILLERSLI

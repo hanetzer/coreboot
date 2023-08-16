@@ -1,0 +1,7 @@
+Category: desktop
+Board URL: https://www.asrock.com/mb/amd/x370%20killer%20sliac/
+ROM protocol: SPI
+Flashrom support: y
+ROM package: SOIC-8
+ROM socketed: n
+Release year: 2017

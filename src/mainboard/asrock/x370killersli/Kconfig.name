@@ -1,0 +1,2 @@
+config BOARD_ASROCK_X370KILLERSLI
+	bool "X370 Killer Sli"
