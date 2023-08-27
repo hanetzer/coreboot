@@ -4,8 +4,18 @@ chip soc/amd/picasso
 	# Set FADT Configuration
 	register "common_config.fadt_boot_arch" = "ACPI_FADT_LEGACY_DEVICES"
 	register "emmc_config" = "{
-		.timing SD_EMMC_DISABLE,
+		.timing = SD_EMMC_DISABLE,
 	}"
+
+	# eSPI Configuration
+	# register "common_config.espi_config" = "{
+	# 	.std_io_decode_bitmap = ESPI_DECODE_IO_
+	# }"
+
+	register "i2c_scl_reset" = "GPIO_I2C2_SCL | GPIO_I2C3_SCL"
+	register "i2c[3].early_init" = "1"
+	# I2C Pad Control RX Select Configuration
+	# register "i2c_pad[3].rx_level" = "I2C_PAD_RX_1_8V" TODO: doesn't exist in picasso
 
 	# general purpose PCIe clock output configuration
 	register "gpp_clk_config[0]" = "GPP_CLK_REQ"
@@ -29,35 +39,47 @@ chip soc/amd/picasso
 			device ref xhci_1 on end	# USB 3.1
 			device ref acp on end		# Audio
 			device ref hda on end		# HDA
-		end
+		end	# internal_bridge_a
 		device ref lpc_bridge on
 			chip superio/nuvoton/nct6779d
-				device pnp 2e.1 off end	# Parallel
-				device pnp 2e.2 on	# UART A
+				device pnp 2e.1 off end		# Parallel
+				device pnp 2e.2 on		# UART A
 					io  0x60 = 0x3f8
 					irq 0x70 = 4
 				end
-				device pnp 2e.3 off end # UART B, IR
-				device pnp 2e.5 on	# Keyboard
+				device pnp 2e.3    off end	# UART B, IR
+				device pnp 2e.5    on		# Keyboard
 					io  0x60 = 0x60
 					io  0x62 = 0x64
 					irq 0x70 = 1
 					irq 0x72 = 12
 				end
-				device pnp 2e.6 off end
-				device pnp 2e.8 off end
-				device pnp 2e.a on end
-				device pnp 2e.b on
+				device pnp 2e.6   off end	# CIR
+				device pnp 2e.7   off end	# GPIO6-8
+				device pnp 2e.8   off end	# WDT1, GPIO0, GPIO1
+				device pnp 2e.108 on  end	# GPIO0
+				device pnp 2e.9   off end	# GPIO1-8
+				device pnp 2e.109 on  end	# GPIO1
+				device pnp 2e.209 on  end	# GPIO2
+				device pnp 2e.309 on  end	# GPIO3
+				device pnp 2e.409 on  end	# GPIO4
+				device pnp 2e.509 on  end	# GPIO5
+				device pnp 2e.609 off end	# GPIO6
+				device pnp 2e.709 on  end	# GPIO7
+				device pnp 2e.a   on  end	# ACPI
+				device pnp 2e.b   on		# H/W Monitor, FP LED
 					io  0x60 = 0x290
 					io  0x62 = 0x2a0
 					irq 0x70 = 0
 				end
-				device pnp 2e.d off end
-				device pnp 2e.e off end
-				device pnp 2e.f off end
-				device pnp 2e.14 off end
-				device pnp 2e.16 off end
+				device pnp 2e.d   off end	# WDT1
+				device pnp 2e.e   off end	# CIR Wake-up
+				device pnp 2e.f   off end	# Push-pull/Open-Drain
+				device pnp 2e.14  off end	# Port 80 UART
+				device pnp 2e.16  off end	# Deep Sleep
 			end
-		end
-	end
+		end	# lpc_bridge
+	end	# domain
+	device ref i2c_2 on end
+	device ref i2c_3 on end
 end	# chip soc/amd/picasso

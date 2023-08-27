@@ -3,14 +3,17 @@
 #include <commonlib/helpers.h>
 #include <console/console.h>
 #include <device/device.h>
+#include <types.h>
+
+#include <FspsUpd.h>
+#include <amdblocks/amd_pci_util.h>
 #include <soc/acpi.h>
 #include <soc/amd/picasso/chip.h>
 #include <soc/cpu.h>
 #include <soc/pci_devs.h>
 #include <soc/southbridge.h>
-#include <types.h>
-#include <FspsUpd.h>
-#include <amdblocks/amd_pci_util.h>
+
+#include "gpio.h"
 
 /* TODO: recheck IRQ tables */
 
@@ -49,6 +52,7 @@ const struct fch_irq_routing *mb_get_fch_irq_mapping(size_t *length)
 
 static void mainboard_init(void *chip_info)
 {
+	mainboard_program_gpios();
 }
 
 struct chip_operations mainboard_ops = {

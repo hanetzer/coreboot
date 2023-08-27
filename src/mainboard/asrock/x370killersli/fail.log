@@ -1,7 +1,9 @@
-[NOTE ]  coreboot-4.14-11944-gaf1534f5afb6-dirty Tue Aug 15 03:19:32 UTC 2023 x86_32 bootblock starting (log level: 7)...
+[NOTE ]  coreboot-4.20-1351-g699ffa75f28c-dirty Sun Aug 27 20:09:50 UTC 2023 x86_32 bootblock starting (log level: 8)...
 [DEBUG]  Family_Model: 00810f81
 [INFO ]  Set power off after power failure.
 [DEBUG]  PMxC0 STATUS: 0x800 BIT11
+[DEBUG]  I2C bus 3 version 0x3132322a
+[INFO ]  DW I2C bus 3 at 0xfedc5000 (400 KHz)
 [DEBUG]  SPI normal read speed: 33.33 MHz
 [DEBUG]  SPI fast read speed: 33.33 MHz
 [DEBUG]  SPI alt read speed: 33.33 MHz
@@ -11,19 +13,40 @@
 [DEBUG]  FMAP: Found "FLASH" version 1.1 at 0x10000.
 [DEBUG]  FMAP: base = 0xff000000 size = 0x1000000 #areas = 4
 [DEBUG]  FMAP: area COREBOOT found @ 11000 (16707584 bytes)
-[INFO ]  CBFS: mcache @0x02011200 built for 18 files, used 0x3c8 of 0x4000 bytes
-[INFO ]  CBFS: Found 'fallback/romstage' @0x80 size 0x7624 in mcache @0x0201122c
-[DEBUG]  BS: bootblock times (exec / console): total (unknown) / 88 ms
+[INFO ]  CBFS: mcache @0x02011200 built for 19 files, used 0x3f4 of 0x4000 bytes
+[INFO ]  CBFS: Found 'fallback/romstage' @0x80 size 0x79e1 in mcache @0x0201122c
+[DEBUG]  BS: bootblock times (exec / console): total (unknown) / 96 ms
 
 
-[NOTE ]  coreboot-4.14-11944-gaf1534f5afb6-dirty Tue Aug 15 03:19:32 UTC 2023 x86_32 romstage starting (log level: 7)...
-[INFO ]  GPIO Control Switch: 0xff000000, Wake Stat 0: 0x00000000, Wake Stat 1: 0x00000000
+[NOTE ]  coreboot-4.20-1351-g699ffa75f28c-dirty Sun Aug 27 20:09:50 UTC 2023 x86_32 romstage starting (log level: 8)...
+[INFO ]  POST: 0x40
+[INFO ]  GPIO Control Switch: 0xef000000, Wake Stat 0: 0x00000000, Wake Stat 1: 0x00000000
 [DEBUG]  FMAP: area COREBOOT found @ 11000 (16707584 bytes)
-[INFO ]  CBFS: Found 'fspm.bin' @0x13a840 size 0x1855e in mcache @0x020114c8
+[INFO ]  CBFS: Found 'fspm.bin' @0x13a340 size 0x1855e in mcache @0x020114c8
+[SPEW ]  Spec version: v2.0
+[SPEW ]  Revision: 0.0.0, Build Number 1
+[SPEW ]  Type: release/official
+[SPEW ]  image ID: AMD_PCS0
+[SPEW ]  	base 0x20c0000 + 0x4b000
+[SPEW ]  	Config region        0x46f2c + 0x104
+[SPEW ]  	Memory init offset   0x7b8
 [WARN ]  No AMD FSP image revision information available
+[INFO ]  POST: 0x34
+[SPEW ]  bootmode is set to: 0
+[INFO ]  before i2c_write_raw
+[WARN ]  i2c_write_raw ret=0
+[INFO ]  POST: 0x36
+[SPEW ]  Architectural UPD values for MemoryInit at: 0x02000dec
+[SPEW ]    0x01: Revision
+[SPEW ]    0x00000000 --> 0x02001000: NvsBufferPtr
+[SPEW ]    0x000a0000 --> 0x0204c030: StackBase
+[SPEW ]    0x00080000 --> 0x00040000: StackSize
+[SPEW ]    0x00000000 --> 0x00002000: BootLoaderTolumSize
+[SPEW ]    0x00000000: BootMode
+[SPEW ]  UPD values for MemoryInit:
 [DEBUG]  0x02000dcc: 50 49 43 41 53 4f 5f 4d 01 00 00 00 00 00 00 00  PICASO_M........
 [DEBUG]  0x02000ddc: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[DEBUG]  0x02000dec: 01 00 00 00 00 10 00 02 f0 b8 04 02 00 00 04 00  ................
+[DEBUG]  0x02000dec: 01 00 00 00 00 10 00 02 30 c0 04 02 00 00 04 00  ........0.......
 [DEBUG]  0x02000dfc: 00 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00  . ..............
 [DEBUG]  0x02000e0c: 00 00 00 f8 f8 03 00 00 00 00 00 00 01 00 00 00  ................
 [DEBUG]  0x02000e1c: 00 c2 01 00 00 20 1c 00 00 00 00 00 00 00 00 00  ..... ..........
@@ -35,3 +58,7 @@
 [DEBUG]  0x02000eac: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 [DEBUG]  ...
 [DEBUG]  0x02000ecc: 00 00 aa 55                                      ...U
+[SPEW ]  Calling FspMemoryInit: 0x020c07b8
+[SPEW ]  	0x02000dcc: raminit_upd
+[SPEW ]  	0x0204c02c: &hob_list_ptr
+[INFO ]  POST: 0x92
