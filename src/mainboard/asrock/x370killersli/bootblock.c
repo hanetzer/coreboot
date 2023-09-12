@@ -1,3 +1,4 @@
+#include <arch/io.h>
 #include <arch/mmio.h>
 #include <bootblock_common.h>
 #include <console/console.h>
@@ -25,4 +26,48 @@ void bootblock_mainboard_early_init(void)
 	lpc_enable_sio_decode(LPC_SELECT_SIO_2E2F);
 	lpc_enable_decode(DECODE_ENABLE_SERIAL_PORT0 << CONFIG_UART_FOR_CONSOLE);
 	nuvoton_enable_serial(SERIAL_DEV, CONFIG_TTYS0_BASE);
+}
+
+void bootblock_mainboard_init(void)
+{
+	uint8_t nct3933_15_dat1[] = {0x01, 0x00};
+	uint8_t nct3933_15_dat2[] = {0x02, 0x00};
+	uint8_t nct3933_15_dat3[] = {0x03, 0x05};
+	uint8_t nct3933_13_dat1[] = {0x03, 0x8a};
+	uint8_t nct3933_13_dat2[] = {0x02, 0x03};
+	uint8_t nct3933_13_dat3[] = {0x01, 0x80};
+	uint8_t rgb_dat1[] = {0x52, 0x02, 0x00, 0x00};
+	uint8_t rgb_dat2[] = {0x31, 0x01, 0x00};
+	int ret;
+
+	printk(BIOS_INFO, "bootblock: before i2c_write_raw\n");
+
+	ret = i2c_write_raw(3, 0x15, nct3933_15_dat1, sizeof(nct3933_15_dat1));
+	printk(BIOS_INFO, "i2c_write_raw nct3933_15_dat1 ret=%d\n", ret);
+	ret = i2c_write_raw(3, 0x15, nct3933_15_dat2, sizeof(nct3933_15_dat2));
+	printk(BIOS_INFO, "i2c_write_raw nct3933_15_dat2 ret=%d\n", ret);
+	ret = i2c_write_raw(3, 0x15, nct3933_15_dat3, sizeof(nct3933_15_dat3));
+	printk(BIOS_INFO, "i2c_write_raw nct3933_15_dat3 ret=%d\n", ret);
+
+	ret = i2c_write_raw(3, 0x13, nct3933_13_dat1, sizeof(nct3933_13_dat1));
+	printk(BIOS_INFO, "i2c_write_raw nct3933_13_dat1 ret=%d\n", ret);
+	ret = i2c_write_raw(3, 0x13, nct3933_13_dat2, sizeof(nct3933_13_dat2));
+	printk(BIOS_INFO, "i2c_write_raw nct3933_13_dat2 ret=%d\n", ret);
+	ret = i2c_write_raw(3, 0x13, nct3933_13_dat3, sizeof(nct3933_13_dat3));
+	printk(BIOS_INFO, "i2c_write_raw nct3933_13_dat3 ret=%d\n", ret);
+
+	ret = i2c_write_raw(3, 0x6a, rgb_dat1, sizeof(rgb_dat1));
+	printk(BIOS_INFO, "i2c_write_raw rgb_dat1 ret=%d\n", ret);
+	ret = i2c_write_raw(3, 0x6a, rgb_dat2, sizeof(rgb_dat2));
+	printk(BIOS_INFO, "i2c_write_raw rgb_dat2 ret=%d\n", ret);
+
+	printk(BIOS_INFO, "bootblock: after i2c_write_raw\n");
+
+#if CONFIG(SERIALICE)
+	printk(BIOS_INFO, "Entering Serialice Shell\n");
+
+	ice();
+
+	printk(BIOS_INFO, "Exiting Serialice Shell\n");
+#endif
 }

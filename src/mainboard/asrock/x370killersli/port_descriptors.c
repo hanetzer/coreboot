@@ -6,32 +6,46 @@
 
 static const fsp_dxio_descriptor pco_dxio_descriptors[] = {
 	{
-		/* M2_1*/
-		.port_present = true,
-		.engine_type = PCIE_ENGINE,
-		.start_logical_lane = 4,
-		.end_logical_lane = 7,
-		.device_number = 0,
-		.function_number = 0,
-		.link_aspm = ASPM_L1,
-		.link_aspm_L1_1 = true,
-		.link_aspm_L1_2 = true,
-		.turn_off_unused_lanes = true,
-		.clk_req = CLK_REQ1,
-	},
-	{
 		/* PCIE2_SLOT */
 		.port_present = true,
 		.engine_type = PCIE_ENGINE,
 		.start_logical_lane = 8,
 		.end_logical_lane = 15,
 		.device_number = 1,
-		.function_number = 7,
+		.function_number = 1,
 		.link_aspm = ASPM_L1,
 		.link_aspm_L1_1 = true,
 		.link_aspm_L1_2 = true,
 		.turn_off_unused_lanes = true,
-		.clk_req = CLK_REQ0,
+		.clk_req = CLK_REQGFX,
+	},
+	{
+		/* M2_1? */
+		.port_present = true,
+		.engine_type = PCIE_ENGINE,
+		.start_logical_lane = 4,
+		.end_logical_lane = 7,
+		.device_number = 1,
+		.function_number = 6,
+		.link_aspm = ASPM_L1,
+		.link_aspm_L1_1 = true,
+		.link_aspm_L1_2 = true,
+		.turn_off_unused_lanes = true,
+		.clk_req = CLK_REQ4,
+	},
+	{
+		/* X370? */
+		.port_present = false,
+		.engine_type = UNUSED_ENGINE,
+		.start_logical_lane = 0,
+		.end_logical_lane = 3,
+		.device_number = 1,
+		.function_number = 2,
+		.link_aspm = ASPM_L1,
+		.link_aspm_L1_1 = true,
+		.link_aspm_L1_2 = true,
+		.turn_off_unused_lanes = true,
+		.clk_req = CLK_REQ2,
 	},
 };
 
